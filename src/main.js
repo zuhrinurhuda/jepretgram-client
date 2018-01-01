@@ -6,10 +6,11 @@ import router from './router'
 import axios from 'axios'
 import store from './vuex/index'
 
-Vue.config.productionTip = false
 Vue.prototype.$http = axios.create({
   baseURL: 'http://localhost:3000/api'
 })
+
+Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({

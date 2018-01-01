@@ -16,11 +16,13 @@
             <div class="ui center aligned segment">
               <img class="ui centered jepret-logo image" src="../assets/jepretgram.png" alt="Jepretgram Logo">
               <img class="ui centered jepret-icon image" src="../assets/camera.png" alt="Jepretgram Icon">
-              <button class="ui facebook button">
+              <button class="ui facebook button" @click="login">
                 <i class="facebook icon"></i>
                 Log in with Facebook
               </button>
             </div>
+          </div>
+          <div class="six wide column large screen only">
           </div>
         </div>
       </div>
@@ -30,7 +32,46 @@
 
 <script>
   export default {
-    name: 'LoginPage'
+    name: 'LoginPage',
+    methods: {
+      login: function () {
+        window.FB.login(response => {
+          if (response.status === 'connected') {
+            console.log('Login success ', response.authResponse)
+            this.$http.post('/users/login', {}, {
+              headers: { accesstoken: response.authResponse.accessToken }
+            })
+            .then(({ data }) => {
+              console.log(data)
+            })
+            .catch(err => console.log(err))
+          } else {
+            console.log('Login failed')
+          }
+        }, {scope: 'public_profile, email'})
+      }
+    },
+    created: function () {
+      window.fbAsyncInit = function () {
+        window.FB.init({
+          appId: '156642198301030',
+          cookie: true,
+          xfbml: true,
+          version: 'v2.11'
+        })
+        window.FB.AppEvents.logPageView()
+      };
+
+      (function (d, s, id) {
+        let js
+        let fjs = d.getElementsByTagName(s)[0]
+        if (d.getElementById(id)) { return }
+        js = d.createElement(s)
+        js.id = id
+        js.src = 'https://connect.facebook.net/en_US/sdk.js'
+        fjs.parentNode.insertBefore(js, fjs)
+      }(document, 'script', 'facebook-jssdk'))
+    }
   }
 </script>
 
