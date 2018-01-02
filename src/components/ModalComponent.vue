@@ -19,11 +19,11 @@
         <div class="two fields">
           <div class="field">
             <label>Caption</label>
-            <input type="text" placeholder="say something about this photo" v-model="newPhotoData.caption">
+            <input type="text" placeholder="say something about this photo" v-model="caption">
           </div>
           <div class="field">
             <label>Hashtag</label>
-            <input type="text" placeholder="separate hashtags with spaces" v-model="newPhotoData.hashtags">
+            <input type="text" placeholder="separate hashtags with spaces" v-model="hashtags">
           </div>
         </div>
       </div>
@@ -47,11 +47,9 @@
     data: function () {
       return {
         thumbnail: null,
-        newPhotoData: {
-          photo: null,
-          caption: null,
-          hashtags: null
-        }
+        photo: null,
+        caption: null,
+        hashtags: null
       }
     },
     methods: {
@@ -74,7 +72,9 @@
       },
       uploadPhoto: function () {
         let formData = new FormData()
-        formData.append('newPhoto', this.newPhotoData)
+        formData.append('photo', this.photo)
+        formData.append('caption', this.caption)
+        formData.append('hashtags', this.hashtags)
         this.uploadNewPhoto(formData)
       }
     },

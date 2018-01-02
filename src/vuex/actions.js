@@ -14,7 +14,6 @@ const actions = {
     .catch(err => console.log(err))
   },
   uploadNewPhoto: ({ commit }, payload) => {
-    console.log('masuk --> ', payload)
     http.post('/photos', payload, {
       headers: {
         'Content-Type': 'multipart/form-data',
