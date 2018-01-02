@@ -7,13 +7,13 @@
     <div class="scrolling content">
       <div class="ui form">
         <div class="field">
-          <div v-if="!image">
-            <label>Select an image</label>
-            <input type="file" @change="onFileChange">
+          <div v-if="!thumbnail">
+            <label>Select a photo</label>
+            <input type="file" accept="image/*" @change="onFileChange">
           </div>
           <div v-else>
-            <i class="big remove icon" @click="removeImage"></i>
-            <img class="ui centered fit image" :src="image" alt="">
+            <i class="big remove icon" @click="removePhoto"></i>
+            <img class="ui centered fit image" :src="thumbnail" alt="">
           </div>
         </div>
         <div class="two fields">
@@ -32,7 +32,7 @@
       <div class="ui black deny button">
         Cancel
       </div>
-      <div class="ui positive button">
+      <div class="ui positive button" @click="uploadPhoto">
         Submit
       </div>
     </div>
@@ -41,32 +41,41 @@
 
 <script>
   /* global $ */
+  import { mapActions } from 'vuex'
   export default {
     name: 'ModalComponent',
     data: function () {
       return {
-        image: null,
+        thumbnail: null,
         newPhotoData: {
+          photo: null,
           caption: null,
           hashtags: null
         }
       }
     },
     methods: {
+      ...mapActions(['uploadNewPhoto']),
       onFileChange: function (event) {
         let files = event.target.files || event.dataTransfer.files
         if (!files.length) return
-        this.createImage(files[0])
+        this.createThumbnail(files[0])
+        this.photo = files[0]
       },
-      createImage: function (file) {
-        let reader = new FileReader()
-        reader.onload = (event) => {
-          this.image = event.target.result
+      createThumbnail: function (file) {
+        let fileReader = new FileReader()
+        fileReader.onload = (event) => {
+          this.thumbnail = event.target.result
         }
-        reader.readAsDataURL(file)
+        fileReader.readAsDataURL(file)
       },
-      removeImage: function (event) {
-        this.image = null
+      removePhoto: function () {
+        this.thumbnail = null
+      },
+      uploadPhoto: function () {
+        let formData = new FormData()
+        formData.append('newPhoto', this.newPhotoData)
+        this.uploadNewPhoto(formData)
       }
     },
     updated: function () {

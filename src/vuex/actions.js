@@ -12,6 +12,19 @@ const actions = {
       commit('setUserProfile', data.data)
     })
     .catch(err => console.log(err))
+  },
+  uploadNewPhoto: ({ commit }, payload) => {
+    console.log('masuk --> ', payload)
+    http.post('/photos', payload, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        accesstoken: localStorage.getItem('accesstoken')
+      }
+    })
+    .then(({ data }) => {
+      console.log(data)
+    })
+    .catch(err => console.log(err))
   }
 }
 
