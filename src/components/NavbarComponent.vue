@@ -20,6 +20,7 @@
             {{ userProfile.name }}
             <div class="menu">
               <div class="item"><i class="edit icon"></i> Edit Profile</div>
+              <div class="item" @click="addPhotoModal"><i class="camera retro icon"></i> Add Photo</div>
               <div class="item" @click="logout"><i class="sign out icon"></i> Log out</div>
             </div>
           </div>
@@ -45,6 +46,9 @@
       logout: function () {
         localStorage.removeItem('accesstoken')
         this.$router.push('/login')
+      },
+      addPhotoModal: function () {
+        $('.ui.small.modal').modal('show')
       }
     },
     created: function () {
