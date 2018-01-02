@@ -12,6 +12,6 @@
 
 <style>
   #app {
-    background-color: #FAFAFA;
+    background-color: #fafafa;
   }
 </style>

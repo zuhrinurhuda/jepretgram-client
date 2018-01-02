@@ -42,7 +42,8 @@
               headers: { accesstoken: response.authResponse.accessToken }
             })
             .then(({ data }) => {
-              console.log(data)
+              localStorage.setItem('accesstoken', data.data)
+              this.$router.push('/')
             })
             .catch(err => console.log(err))
           } else {
