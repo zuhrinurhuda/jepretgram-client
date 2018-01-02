@@ -12,7 +12,6 @@
             <input type="file" @change="onFileChange">
           </div>
           <div v-else>
-            <!-- <button @click="removeImage">Remove image</button> -->
             <i class="big remove icon" @click="removeImage"></i>
             <img class="ui centered fit image" :src="image" alt="">
           </div>
@@ -41,6 +40,7 @@
 </template>
 
 <script>
+  /* global $ */
   export default {
     name: 'ModalComponent',
     data: function () {
@@ -53,28 +53,26 @@
       }
     },
     methods: {
-      onFileChange(event) {
-        var files = event.target.files || event.dataTransfer.files
+      onFileChange: function (event) {
+        let files = event.target.files || event.dataTransfer.files
         if (!files.length) return
         this.createImage(files[0])
-        
       },
-      createImage(file) {
-        var image = new Image()
-        var reader = new FileReader()
-        var vm = this
-
-        reader.onload = (e) => {
-          vm.image = e.target.result
+      createImage: function (file) {
+        let reader = new FileReader()
+        reader.onload = (event) => {
+          this.image = event.target.result
         }
         reader.readAsDataURL(file)
       },
-      removeImage: function (e) {
-        this.image = '';
+      removeImage: function (event) {
+        this.image = null
       }
     },
     updated: function () {
-      $('.ui.small.modal').modal('refresh')
+      $(document).ready(function () {
+        $('.ui.small.modal').modal('refresh')
+      })
     }
   }
 </script>
