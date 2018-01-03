@@ -1,6 +1,7 @@
 const state = {
   userProfile: [],
-  photos: []
+  photos: [],
+  userPhotos: []
 }
 
 export default state

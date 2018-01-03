@@ -1,7 +1,8 @@
 <template>
   <div class="ui fluid container">
     <navbar-component/>
-    <main-component/>
+    <!-- <main-component/> -->
+    <router-view/>
     <footer-component/>
     <modal-component/>
   </div>

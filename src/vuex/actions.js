@@ -33,6 +33,15 @@ const actions = {
       commit('setNewPhoto', data.data)
     })
     .catch(err => console.log(err))
+  },
+  getUserPhotos: ({ commit }) => {
+    http.get('/photos/profile', {
+      headers: { accesstoken: localStorage.getItem('accesstoken') }
+    })
+    .then(({ data }) => {
+      commit('setUserPhotos', data.data)
+    })
+    .catch(err => console.log(err))
   }
 }
 

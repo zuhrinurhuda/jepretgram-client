@@ -6,9 +6,11 @@ const mutations = {
     state.photos = payload
   },
   setNewPhoto: (state, payload) => {
-    console.log(payload)
     state.photos.push(payload)
-    console.log(state.photos)
+    state.userPhotos.push(payload)
+  },
+  setUserPhotos: (state, payload) => {
+    state.userPhotos = payload
   }
 }
 

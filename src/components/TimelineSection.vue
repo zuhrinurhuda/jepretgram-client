@@ -1,13 +1,15 @@
 <template>
-  <div class="ui container">
-    <div class="ui three cards">
-      <div class="ui card" v-for="(photo, index) in photos" :key="index">
+  <div class="ui grid container">
+    <div class="sixteen wide mobile eight wide tablet four wide computer column" v-for="(photo, index) in photos" :key="index">
+      <div class="ui fluid card">
         <div class="content">
-          <div class="right floated meta">{{ new Date(photo.uploadedAt).toDateString() }}</div>
+          <div class="right floated meta">
+            <a class="ui blue label">Follow</a>
+            </div>
           <img class="ui avatar image" :src="photo.uploader.avatar"> {{ photo.uploader.name }}
         </div>
         <div class="image">
-          <img :src="photo.photoUrl" alt="">
+          <img :src="photo.photoUrl" :alt="photo.caption">
         </div>
         <div class="content">
           <span class="right floated">
@@ -16,12 +18,6 @@
           </span>
           <i class="comment icon"></i>
           {{ photo.comments.length }} comments
-        </div>
-        <div class="extra content">
-          <div class="ui large transparent left icon input">
-            <i class="heart outline icon"></i>
-            <input type="text" placeholder="Add Comment...">
-          </div>
         </div>
       </div>
     </div>
@@ -44,6 +40,8 @@
   }
 </script>
 
-<style>
-
+<style scoped>
+  .ui.grid.container {
+    margin: 1rem;
+  }
 </style>
