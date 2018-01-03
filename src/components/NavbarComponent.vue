@@ -1,5 +1,5 @@
 <template>
-  <div class="ui fluid container">
+  <div class="ui container">
     <div class="ui container">
       <div class="ui pointing menu">
         <a class="active item">
@@ -25,9 +25,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="ui segment">
-        <p></p>
       </div>
     </div>
   </div>
@@ -63,7 +60,5 @@
 </script>
 
 <style scoped>
-  .ui.fluid.container {
-    background-color: #ffffff
-  }
+
 </style>

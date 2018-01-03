@@ -13,6 +13,15 @@ const actions = {
     })
     .catch(err => console.log(err))
   },
+  getAllPhotos: ({ commit }) => {
+    http.get('/photos', {
+      headers: { accesstoken: localStorage.getItem('accesstoken') }
+    })
+    .then(({ data }) => {
+      commit('setPhotos', data.data)
+    })
+    .catch(err => console.log(err))
+  },
   uploadNewPhoto: ({ commit }, payload) => {
     http.post('/photos', payload, {
       headers: {
@@ -21,7 +30,7 @@ const actions = {
       }
     })
     .then(({ data }) => {
-      console.log(data)
+      commit('setNewPhoto', data.data)
     })
     .catch(err => console.log(err))
   }

@@ -37,7 +37,7 @@
       login: function () {
         window.FB.login(response => {
           if (response.status === 'connected') {
-            console.log('Login success ', response.authResponse)
+            // console.log('Login success ', response.authResponse)
             this.$http.post('/users/login', {}, {
               headers: { accesstoken: response.authResponse.accessToken }
             })

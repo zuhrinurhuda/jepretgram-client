@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import IndexPage from '@/components/IndexPage'
 import MainComponent from '@/components/MainComponent'
+import TimelineSection from '@/components/TimelineSection'
 import LoginPage from '@/components/LoginPage'
 
 Vue.use(Router)
@@ -15,8 +16,14 @@ export default new Router({
       children: [
         {
           path: '',
-          name: 'Home',
-          component: MainComponent
+          component: MainComponent,
+          children: [
+            {
+              path: '',
+              name: 'Timeline',
+              component: TimelineSection
+            }
+          ]
         }
       ]
     },
