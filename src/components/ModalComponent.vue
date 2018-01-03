@@ -22,7 +22,7 @@
             <input type="text" placeholder="say something about this photo" v-model="caption">
           </div>
           <div class="field">
-            <label>Hashtag</label>
+            <label>Hashtags</label>
             <input type="text" placeholder="separate hashtags with spaces" v-model="hashtags">
           </div>
         </div>

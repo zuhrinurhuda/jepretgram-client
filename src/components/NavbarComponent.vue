@@ -1,12 +1,8 @@
 <template>
   <div class="ui container">
     <div class="ui stackable pointing menu">
-      <a class="active item">
-        Home
-      </a>
-      <a class="item">
-        My Timeline
-      </a>
+      <router-link class="item" to="/">Home</router-link>
+      <router-link class="item" to="/profile">My Profile</router-link>
       <div class="right menu">
         <div class="item">
           <div class="ui transparent icon input">

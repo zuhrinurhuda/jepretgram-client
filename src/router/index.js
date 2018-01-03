@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import IndexPage from '@/components/IndexPage'
-// import MainComponent from '@/components/MainComponent'
 import TimelineSection from '@/components/TimelineSection'
 import ProfileSection from '@/components/ProfileSection'
 import LoginPage from '@/components/LoginPage'

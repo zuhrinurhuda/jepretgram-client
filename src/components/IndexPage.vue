@@ -1,7 +1,6 @@
 <template>
   <div class="ui fluid container">
     <navbar-component/>
-    <!-- <main-component/> -->
     <router-view/>
     <footer-component/>
     <modal-component/>
@@ -10,14 +9,12 @@
 
 <script>
   import NavbarComponent from '@/components/NavbarComponent'
-  import MainComponent from '@/components/MainComponent'
   import FooterComponent from '@/components/FooterComponent'
   import ModalComponent from '@/components/ModalComponent'
   export default {
     name: 'IndexPage',
     components: {
       NavbarComponent,
-      MainComponent,
       FooterComponent,
       ModalComponent
     }

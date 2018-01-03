@@ -4,6 +4,15 @@ const http = axios.create({
 })
 
 const actions = {
+  getAllUsers: ({ commit }) => {
+    http.get('/users', {
+      headers: { accesstoken: localStorage.getItem('accesstoken') }
+    })
+    .then(({ data }) => {
+      commit('setUsers', data.data)
+    })
+    .catch(err => console.log(err))
+  },
   getUserProfile: ({ commit }) => {
     http.get('/users/profile', {
       headers: { accesstoken: localStorage.getItem('accesstoken') }
@@ -40,6 +49,24 @@ const actions = {
     })
     .then(({ data }) => {
       commit('setUserPhotos', data.data)
+    })
+    .catch(err => console.log(err))
+  },
+  submitLikePhoto: ({ commit }, id) => {
+    http.put(`/photos/like/${id}`, {}, {
+      headers: { accesstoken: localStorage.getItem('accesstoken') }
+    })
+    .then(({ data }) => {
+      commit('setLikePhoto', data.data)
+    })
+    .catch(err => console.log(err))
+  },
+  submitFollowUser: ({ commit }, id) => {
+    http.put(`/users/${id}`, {}, {
+      headers: { accesstoken: localStorage.getItem('accesstoken') }
+    })
+    .then(({ data }) => {
+      console.log(data)
     })
     .catch(err => console.log(err))
   }
