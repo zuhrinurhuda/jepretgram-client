@@ -53,12 +53,10 @@ const actions = {
     .catch(err => console.log(err))
   },
   submitLikePhoto: ({ commit }, payload) => {
-    // console.log(payload)
     http.put(`/photos/like/${payload._id}`, {}, {
       headers: { accesstoken: localStorage.getItem('accesstoken') }
     })
     .then(({ data }) => {
-      // console.log(data.data)
       commit('setLikePhoto', data.data)
     })
     .catch(err => console.log(err))
@@ -82,6 +80,9 @@ const actions = {
       // console.log(data.data.following)
     })
     .catch(err => console.log(err))
+  },
+  sendPhotoDetail: ({ commit }, payload) => {
+    commit('setPhotoDetail', payload)
   }
 }
 

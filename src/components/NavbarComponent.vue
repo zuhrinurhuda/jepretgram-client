@@ -39,7 +39,7 @@
         this.$router.push('/login')
       },
       addPhotoModal: function () {
-        $('.ui.small.modal').modal('show')
+        $('#addPhoto').modal('show')
       }
     },
     created: function () {
