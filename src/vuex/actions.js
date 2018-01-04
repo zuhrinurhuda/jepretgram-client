@@ -52,22 +52,34 @@ const actions = {
     })
     .catch(err => console.log(err))
   },
-  submitLikePhoto: ({ commit }, id) => {
-    http.put(`/photos/like/${id}`, {}, {
+  submitLikePhoto: ({ commit }, payload) => {
+    // console.log(payload)
+    http.put(`/photos/like/${payload._id}`, {}, {
       headers: { accesstoken: localStorage.getItem('accesstoken') }
     })
     .then(({ data }) => {
+      // console.log(data.data)
       commit('setLikePhoto', data.data)
     })
     .catch(err => console.log(err))
   },
-  submitFollowUser: ({ commit }, id) => {
-    http.put(`/users/${id}`, {}, {
+  submitFollowUser: ({ commit }, payload) => {
+    // set follower
+    http.put(`/users/follower/${payload.uploader._id}`, {}, {
       headers: { accesstoken: localStorage.getItem('accesstoken') }
     })
     .then(({ data }) => {
-      // console.log(data)
-      commit('setFollowUser', data.data)
+      // console.log(data.data.followers)
+      commit('setUserFollower', data.data)
+    })
+    .catch(err => console.log(err))
+
+    // set following
+    http.put('/users/following', payload, {
+      headers: { accesstoken: localStorage.getItem('accesstoken') }
+    })
+    .then(({ data }) => {
+      // console.log(data.data.following)
     })
     .catch(err => console.log(err))
   }
