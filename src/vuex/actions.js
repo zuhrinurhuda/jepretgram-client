@@ -66,7 +66,8 @@ const actions = {
       headers: { accesstoken: localStorage.getItem('accesstoken') }
     })
     .then(({ data }) => {
-      console.log(data)
+      // console.log(data)
+      commit('setFollowUser', data.data)
     })
     .catch(err => console.log(err))
   }

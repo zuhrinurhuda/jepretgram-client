@@ -4,7 +4,8 @@
       <div class="ui fluid card">
         <div class="content">
           <div class="right floated meta">
-            <a class="ui blue label" @click="follow(photo.uploader._id)">Follow</a>
+            <a class="ui blue label" v-if="!photo.uploader.followers.length" @click="follow(photo.uploader._id)">Follow</a>
+            <a class="ui basic label" v-else @click="follow(photo.uploader._id)">Unfollow</a>
             </div>
           <img class="ui avatar image" :src="photo.uploader.avatar"> {{ photo.uploader.name }}
         </div>
@@ -43,11 +44,9 @@
         'submitFollowUser'
       ]),
       like: function (id) {
-        console.log(id)
         this.submitLikePhoto(id)
       },
       follow: function (id) {
-        console.log(id)
         this.submitFollowUser(id)
       }
     },
