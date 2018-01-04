@@ -53,7 +53,7 @@ const actions = {
     .catch(err => console.log(err))
   },
   submitLikePhoto: ({ commit }, payload) => {
-    http.put(`/photos/like/${payload._id}`, {}, {
+    http.put(`/photos/${payload._id}/like`, {}, {
       headers: { accesstoken: localStorage.getItem('accesstoken') }
     })
     .then(({ data }) => {
@@ -67,7 +67,6 @@ const actions = {
       headers: { accesstoken: localStorage.getItem('accesstoken') }
     })
     .then(({ data }) => {
-      // console.log(data.data.followers)
       commit('setUserFollower', data.data)
     })
     .catch(err => console.log(err))
@@ -77,12 +76,22 @@ const actions = {
       headers: { accesstoken: localStorage.getItem('accesstoken') }
     })
     .then(({ data }) => {
-      // console.log(data.data.following)
+      // nothing
     })
     .catch(err => console.log(err))
   },
   sendPhotoDetail: ({ commit }, payload) => {
     commit('setPhotoDetail', payload)
+  },
+  submitComment: ({ commit }, payload) => {
+    console.log('comment', payload)
+    http.post('/comments', payload, {
+      headers: { accesstoken: localStorage.getItem('accesstoken') }
+    })
+    .then(({ data }) => {
+      console.log(data)
+    })
+    .catch(err => console.log(err))
   }
 }
 

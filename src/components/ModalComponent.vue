@@ -74,8 +74,8 @@
           <div class="ui divider"></div>
           <div class="extra content">
             <div class="ui large transparent right fluid icon input">
-              <i class="send icon"></i>
-              <input type="text" placeholder="Add a comment...">
+              <i class="send link icon" @click="addComment(photoDetail)"></i>
+              <input type="text" placeholder="Add a comment..." v-model="comment" @keyup.enter="addComment(photoDetail)">
             </div>
           </div>
         </div>
@@ -95,7 +95,8 @@
         thumbnail: null,
         photo: null,
         caption: null,
-        hashtags: null
+        hashtags: null,
+        comment: null
       }
     },
     computed: {
@@ -103,17 +104,16 @@
       hashtag: function () {
         let strHashtag = ''
         this.photoDetail.hashtags.forEach(hashtag => {
-          console.log(hashtag)
           strHashtag += ' ' + hashtag
         })
-
         return strHashtag
       }
     },
     methods: {
       ...mapActions([
         'uploadNewPhoto',
-        'submitFollowUser'
+        'submitFollowUser',
+        'submitComment'
       ]),
       onFileChange: function (event) {
         let files = event.target.files || event.dataTransfer.files
@@ -140,6 +140,15 @@
       },
       follow: function (photo) {
         this.submitFollowUser(photo)
+      },
+      addComment: function (photoDetail) {
+        let payload = {
+          photoDetail: photoDetail,
+          comment: this.comment
+        }
+
+        this.submitComment(payload)
+        this.comment = null
       }
     },
     updated: function () {
@@ -163,13 +172,12 @@
     left: 638px;
   }
 
-  /* .ui.grid>.column:not(.row) {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  } */
+  .caption p {
+    margin: 0 0 0.5em;
+  }
 
   .ui.grid {
     margin-top: 1rem;
     margin-bottom: 1rem;
-}
+  }
 </style>
