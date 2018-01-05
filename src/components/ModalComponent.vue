@@ -64,11 +64,18 @@
           <div class="ui divider"></div>
           <div class="scrolling content">
             <div class="caption" v-if="photoDetail.uploader">
-              <p><span class="ui tiny header">{{ photoDetail.uploader.name }}</span> {{ photoDetail.caption }}</p>
-              <a href="">{{ hashtag }}</a>
+              <p>
+                <span class="ui tiny header">{{ photoDetail.uploader.name }}</span> 
+                {{ photoDetail.caption }}
+                <br>
+                <a href="">{{ hashtag }}</a>
+              </p>
             </div>
             <div class="comments">
-              <p></p>
+              <p v-for="(comment, index) in photoDetail.comments" :key="index">
+                <span class="ui tiny header">{{ comment.user.name }}</span> 
+                {{ comment.comment }}
+              </p>
             </div>
           </div>
           <div class="ui divider"></div>
@@ -80,7 +87,7 @@
           </div>
         </div>
       </div>
-        <!-- {{ photoDetail }} -->
+        {{ photoDetail }}
     </div>
   </div>
 </template>
@@ -172,7 +179,7 @@
     left: 638px;
   }
 
-  .caption p {
+  .caption, .comments p {
     margin: 0 0 0.5em;
   }
 

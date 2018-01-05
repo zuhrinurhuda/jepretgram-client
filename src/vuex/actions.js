@@ -84,8 +84,24 @@ const actions = {
     commit('setPhotoDetail', payload)
   },
   submitComment: ({ commit }, payload) => {
-    console.log('comment', payload)
-    http.post('/comments', payload, {
+    let comment = { comment: payload.comment }
+    http.post('/comments', comment, {
+      headers: { accesstoken: localStorage.getItem('accesstoken') }
+    })
+    .then(({ data }) => {
+      http.put(`/photos/${payload.photoDetail._id}/comment`, data.data, {
+        headers: { accesstoken: localStorage.getItem('accesstoken') }
+      })
+      .then(({ data }) => {
+        // console.log(data)
+        commit('setPhotoComment', data.data)
+      })
+      .catch(err => console.log(err))
+    })
+    .catch(err => console.log(err))
+  },
+  getPhotoComments: ({ commit }, payload) => {
+    http.get(`/comments/${payload}`, {
       headers: { accesstoken: localStorage.getItem('accesstoken') }
     })
     .then(({ data }) => {

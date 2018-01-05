@@ -16,10 +16,10 @@ const mutations = {
     state.userPhotos = payload
   },
   setLikePhoto: (state, payload) => {
-    let photoIndex1 = state.photos.findIndex(element => {
+    let photoIndex = state.photos.findIndex(element => {
       return element._id === payload._id
     })
-    state.photos.splice(photoIndex1, 1, payload)
+    state.photos.splice(photoIndex, 1, payload)
   },
   setUserFollower: (state, payload) => {
     // change follower data in photos
@@ -36,6 +36,12 @@ const mutations = {
   },
   setPhotoDetail: (state, payload) => {
     state.photoDetail = payload
+  },
+  setPhotoComment: (state, payload) => {
+    let photoIndex = state.photos.findIndex(element => {
+      return element._id === payload._id
+    })
+    state.photos.splice(photoIndex, 1, payload)
   }
 }
 
