@@ -1,10 +1,14 @@
 const mutations = {
-  setUsers: (state, payload) => {
-    state.users = payload
-  },
+  /**
+   * Mutations for users route
+   */
   setUserProfile: (state, payload) => {
     state.userProfile = payload
   },
+
+  /**
+   * Mutations for photos route
+   */
   setPhotos: (state, payload) => {
     state.photos = payload
   },
@@ -37,6 +41,10 @@ const mutations = {
   setPhotoDetail: (state, payload) => {
     state.photoDetail = payload
   },
+
+  /**
+   * Mutations for comment route
+   */
   setPhotoComment: (state, payload) => {
     let photoIndex = state.photos.findIndex(element => {
       return element._id === payload._id

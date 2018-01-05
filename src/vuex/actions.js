@@ -4,12 +4,16 @@ const http = axios.create({
 })
 
 const actions = {
-  getAllUsers: ({ commit }) => {
-    http.get('/users', {
-      headers: { accesstoken: localStorage.getItem('accesstoken') }
+  /**
+   * Actions for users route
+   */
+  userLogin: ({ commit }, payload) => {
+    http.post('/users/login', {}, {
+      headers: { accesstoken: payload.authResponse.accessToken }
     })
     .then(({ data }) => {
-      commit('setUsers', data.data)
+      localStorage.setItem('accesstoken', data.data)
+      window.location.replace('/')
     })
     .catch(err => console.log(err))
   },
@@ -22,6 +26,10 @@ const actions = {
     })
     .catch(err => console.log(err))
   },
+
+  /**
+   * Action for photos route
+   */
   getAllPhotos: ({ commit }) => {
     http.get('/photos', {
       headers: { accesstoken: localStorage.getItem('accesstoken') }
@@ -83,6 +91,10 @@ const actions = {
   sendPhotoDetail: ({ commit }, payload) => {
     commit('setPhotoDetail', payload)
   },
+
+  /**
+   * Actions for comment route
+   */
   submitComment: ({ commit }, payload) => {
     let comment = { comment: payload.comment }
     http.post('/comments', comment, {
@@ -93,7 +105,6 @@ const actions = {
         headers: { accesstoken: localStorage.getItem('accesstoken') }
       })
       .then(({ data }) => {
-        // console.log(data)
         commit('setPhotoComment', data.data)
       })
       .catch(err => console.log(err))

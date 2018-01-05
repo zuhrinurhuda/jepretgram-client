@@ -1,6 +1,6 @@
 const state = {
-  users: [],
   userProfile: [],
+  // users: [],
   photos: [],
   userPhotos: [],
   photoDetail: []

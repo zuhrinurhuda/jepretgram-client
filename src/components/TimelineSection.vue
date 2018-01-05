@@ -26,8 +26,11 @@
               <i class="heart red icon" v-else></i>
               {{ photo.likes.length }} likes
             </span>
-            <i class="comment icon"></i>
-            {{ photo.comments.length }} comments
+            <span v-if="photo.comments">
+              <i class="comment outline icon" v-if="!photo.comments.length"></i>
+              <i class="comment icon" v-else></i>
+              {{ photo.comments.length }} comments
+            </span>
           </div>
         </div>
       </div>
@@ -41,9 +44,7 @@
   export default {
     name: 'TimelineSection',
     computed: {
-      ...mapGetters([
-        'photos'
-      ])
+      ...mapGetters(['photos'])
     },
     methods: {
       ...mapActions([
@@ -59,17 +60,14 @@
         this.submitFollowUser(photo)
       },
       photoDetail: function (photo) {
-        console.log(photo)
         this.sendPhotoDetail(photo)
         $('#photoDetail').modal('show')
       }
     },
-    created: function () {
+    mounted: function () {
       this.getAllPhotos()
-      $(document).ready(function () {
-        $('.ui.special.cards .image').dimmer({
-          on: 'hover'
-        })
+      $('.ui.special.cards .image').dimmer({
+        on: 'hover'
       })
     }
   }

@@ -31,28 +31,22 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
   export default {
     name: 'LoginPage',
     methods: {
+      ...mapActions(['userLogin']),
       login: function () {
         window.FB.login(response => {
           if (response.status === 'connected') {
-            // console.log('Login success ', response.authResponse)
-            this.$http.post('/users/login', {}, {
-              headers: { accesstoken: response.authResponse.accessToken }
-            })
-            .then(({ data }) => {
-              localStorage.setItem('accesstoken', data.data)
-              this.$router.push('/')
-            })
-            .catch(err => console.log(err))
+            this.userLogin(response)
           } else {
             console.log('Login failed')
           }
-        }, {scope: 'public_profile, email'})
+        }, { scope: 'public_profile, email' })
       }
     },
-    created: function () {
+    mounted: function () {
       window.fbAsyncInit = function () {
         window.FB.init({
           appId: '156642198301030',

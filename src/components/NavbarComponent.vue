@@ -42,12 +42,10 @@
         $('#addPhoto').modal('show')
       }
     },
-    created: function () {
+    mounted: function () {
       this.getUserProfile()
-      $(document).ready(function () {
-        $('.item.ui.top.pointing.dropdown').dropdown({
-          on: 'hover'
-        })
+      $('.item.ui.top.pointing.dropdown').dropdown({
+        on: 'hover'
       })
     }
   }
