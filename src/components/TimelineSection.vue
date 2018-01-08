@@ -4,7 +4,7 @@
       <div class="ui special cards">
         <div class="ui fluid card">
           <div class="content">
-            <div class="right floated meta" v-if="photo.uploader.followers" @click="follow(photo)">
+            <div class="right floated meta" v-if="(photo.uploader._id != userProfile._id) && photo.uploader.followers" @click="follow(photo)">
               <a class="ui blue label" v-if="!photo.uploader.followers.length">Follow</a>
               <a class="ui basic label" v-else>Unfollow</a>
             </div>
@@ -13,7 +13,7 @@
           <div class="blurring dimmable image">
             <div class="ui dimmer">
               <div class="content">
-                <a class="center" @click="photoDetail(photo)">
+                <a class="center" @click="viewDetail(photo)">
                   <i class="big zoom icon"></i>
                 </a>
               </div>
@@ -44,28 +44,46 @@
   export default {
     name: 'TimelineSection',
     computed: {
-      ...mapGetters(['photos'])
+      ...mapGetters([
+        'photos',
+        'userProfile'
+      ])
     },
     methods: {
       ...mapActions([
         'getAllPhotos',
         'submitLikePhoto',
         'submitFollowUser',
-        'sendPhotoDetail'
+        'getPhotoDetail'
       ]),
       like: function (photo) {
-        this.submitLikePhoto(photo)
+        if (photo.uploader._id === this.userProfile._id) {
+          // nothing
+        } else {
+          this.submitLikePhoto(photo)
+        }
       },
       follow: function (photo) {
-        this.submitFollowUser(photo)
+        if (photo.uploader._id === this.userProfile._id) {
+          // nothing
+        } else {
+          this.submitFollowUser(photo)
+        }
       },
-      photoDetail: function (photo) {
-        this.sendPhotoDetail(photo)
+      viewDetail: function (photo) {
+        this.getPhotoDetail(photo)
         $('#photoDetail').modal('show')
       }
     },
+    created: function () {
+    },
     mounted: function () {
       this.getAllPhotos()
+      $('.ui.special.cards .image').dimmer({
+        on: 'hover'
+      })
+    },
+    updated: function () {
       $('.ui.special.cards .image').dimmer({
         on: 'hover'
       })

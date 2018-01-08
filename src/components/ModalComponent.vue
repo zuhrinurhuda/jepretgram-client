@@ -3,7 +3,7 @@
     <div id="addPhoto" class="ui small modal">
       <i class="close icon"></i>
       <div class="header">
-        Profile Picture
+        Upload photo
       </div>
       <div class="scrolling content">
         <div class="ui form">
@@ -14,7 +14,9 @@
             </div>
             <div v-else>
               <i class="big remove icon" @click="removePhoto"></i>
-              <img class="ui centered fit image" :src="thumbnail" alt="">
+              <div class="ui centered fluid image">
+                <img :src="thumbnail" alt="">
+              </div>
             </div>
           </div>
           <div class="two fields">
@@ -41,20 +43,22 @@
 
     <div id="photoDetail" class="ui large modal">
       <i class="close icon"></i>
-      <div class="ui grid container">
-        <div class="ten wide column" v-if="photoDetail.uploader">
-          <img class="ui image" :src="photoDetail.photoUrl" :alt="photoDetail.uploader.name">
+      <div class="ui stackable grid container">
+        <div class="ten wide column">
+          <div class="ui centered fluid image">
+            <img :src="photoDetail.photoUrl" alt="">
+          </div>
         </div>
         <div class="six wide column">
           <div class="header">
             <div class="ui list">
               <div class="item" v-if="photoDetail.uploader">
-                <img class="ui avatar image" :src="photoDetail.uploader.avatar" :alt="photoDetail.uploader.name">
-                <div class="content">
+                <img class="ui avatar image" :src="photoDetail.uploader.avatar" alt="">
+                <div class="content" v-if="photoDetail.uploader">
                   <a href="" class="header">{{ photoDetail.uploader.name }}</a>
                   <div class="description">Post on {{ new Date(photoDetail.uploadedAt).toDateString() }}</div>
                 </div>
-                <div class="right floated content" v-if="photoDetail.uploader.followers" @click="follow(photoDetail)">
+                <div class="right floated content" v-if="photoDetail.uploader._id != userProfile._id" @click="follow(photoDetail)">
                   <a class="ui blue label" v-if="!photoDetail.uploader.followers.length">Follow</a>
                   <a class="ui basic label" v-else>Unfollow</a>
                 </div>
@@ -71,9 +75,9 @@
                 <a href="">{{ hashtag }}</a>
               </p>
             </div>
-            <div class="comments">
+            <div class="comments" v-if="photoDetail.comments">
               <p v-for="(comment, index) in photoDetail.comments" :key="index">
-                <span class="ui tiny header">{{ comment.user.name }}</span> 
+                <span class="ui tiny header" v-if="comment.user">{{ comment.user.name }}</span> 
                 {{ comment.comment }}
               </p>
             </div>
@@ -87,7 +91,6 @@
           </div>
         </div>
       </div>
-        {{ photoDetail }}
     </div>
   </div>
 </template>
@@ -107,7 +110,10 @@
       }
     },
     computed: {
-      ...mapGetters(['photoDetail']),
+      ...mapGetters([
+        'photoDetail',
+        'userProfile'
+      ]),
       hashtag: function () {
         let strHashtag = ''
         this.photoDetail.hashtags.forEach(hashtag => {
@@ -138,22 +144,28 @@
       removePhoto: function () {
         this.thumbnail = null
       },
+      resetForm: function () {
+        this.thumbnail = null
+        this.photo = null
+        this.caption = null
+        this.hashtags = null
+      },
       uploadPhoto: function () {
         let formData = new FormData()
         formData.append('photo', this.photo)
         formData.append('caption', this.caption)
         formData.append('hashtags', this.hashtags)
         this.uploadNewPhoto(formData)
+        this.resetForm()
       },
-      follow: function (photo) {
-        this.submitFollowUser(photo)
+      follow: function (photoDetail) {
+        this.submitFollowUser(photoDetail)
       },
       addComment: function (photoDetail) {
         let payload = {
           photoDetail: photoDetail,
           comment: this.comment
         }
-
         this.submitComment(payload)
         this.comment = null
       }
@@ -168,11 +180,6 @@
 </script>
 
 <style scoped>
-  .fit {
-    max-width: 668px;
-    max-height: 668px;
-  }
-
   .big.remove.icon {
     position: absolute;
     z-index: 999;

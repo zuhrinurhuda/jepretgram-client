@@ -12,12 +12,12 @@ const mutations = {
   setPhotos: (state, payload) => {
     state.photos = payload
   },
-  setNewPhoto: (state, payload) => {
-    state.photos.push(payload)
-    state.userPhotos.push(payload)
-  },
   setUserPhotos: (state, payload) => {
     state.userPhotos = payload
+  },
+  setNewPhoto: (state, payload) => {
+    state.photos.unshift(payload)
+    state.userPhotos.unshift(payload)
   },
   setLikePhoto: (state, payload) => {
     let photoIndex = state.photos.findIndex(element => {
@@ -33,7 +33,6 @@ const mutations = {
         uploaderIndex.push(index)
       }
     })
-
     uploaderIndex.forEach(index => {
       state.photos[index].uploader = payload
     })

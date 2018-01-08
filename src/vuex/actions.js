@@ -1,6 +1,6 @@
 import axios from 'axios'
 const http = axios.create({
-  baseURL: 'http://localhost:3000/api'
+  baseURL: 'http://35.198.251.228/api'
 })
 
 const actions = {
@@ -26,6 +26,25 @@ const actions = {
     })
     .catch(err => console.log(err))
   },
+  submitFollowUser: ({ commit }, payload) => {
+    // set follower
+    http.put(`/users/${payload.uploader._id}/follower`, {}, {
+      headers: { accesstoken: localStorage.getItem('accesstoken') }
+    })
+      .then(({ data }) => {
+        commit('setUserFollower', data.data)
+      })
+      .catch(err => console.log(err))
+
+    // set following
+    http.put('/users/following', payload, {
+      headers: { accesstoken: localStorage.getItem('accesstoken') }
+    })
+      .then(({ data }) => {
+        // nothing
+      })
+      .catch(err => console.log(err))
+  },
 
   /**
    * Action for photos route
@@ -39,18 +58,6 @@ const actions = {
     })
     .catch(err => console.log(err))
   },
-  uploadNewPhoto: ({ commit }, payload) => {
-    http.post('/photos', payload, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        accesstoken: localStorage.getItem('accesstoken')
-      }
-    })
-    .then(({ data }) => {
-      commit('setNewPhoto', data.data)
-    })
-    .catch(err => console.log(err))
-  },
   getUserPhotos: ({ commit }) => {
     http.get('/photos/profile', {
       headers: { accesstoken: localStorage.getItem('accesstoken') }
@@ -60,35 +67,39 @@ const actions = {
     })
     .catch(err => console.log(err))
   },
+  uploadNewPhoto: ({ commit }, payload) => {
+    http.post('/photos', payload, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        accesstoken: localStorage.getItem('accesstoken')
+      }
+    })
+    .then(({ data }) => {
+      http.get(`/photos/${data.data._id}`, {
+        headers: { accesstoken: localStorage.getItem('accesstoken') }
+      })
+      .then(({ data }) => {
+        commit('setNewPhoto', data.data)
+      })
+      .catch(err => console.log(err))
+    })
+    .catch(err => console.log(err))
+  },
   submitLikePhoto: ({ commit }, payload) => {
     http.put(`/photos/${payload._id}/like`, {}, {
       headers: { accesstoken: localStorage.getItem('accesstoken') }
     })
     .then(({ data }) => {
-      commit('setLikePhoto', data.data)
+      http.get(`/photos/${data.data._id}`, {
+        headers: { accessToken: localStorage.getItem('accesstoken') }
+      })
+      .then(({ data }) => {
+        commit('setLikePhoto', data.data)
+      })
     })
     .catch(err => console.log(err))
   },
-  submitFollowUser: ({ commit }, payload) => {
-    // set follower
-    http.put(`/users/follower/${payload.uploader._id}`, {}, {
-      headers: { accesstoken: localStorage.getItem('accesstoken') }
-    })
-    .then(({ data }) => {
-      commit('setUserFollower', data.data)
-    })
-    .catch(err => console.log(err))
-
-    // set following
-    http.put('/users/following', payload, {
-      headers: { accesstoken: localStorage.getItem('accesstoken') }
-    })
-    .then(({ data }) => {
-      // nothing
-    })
-    .catch(err => console.log(err))
-  },
-  sendPhotoDetail: ({ commit }, payload) => {
+  getPhotoDetail: ({ commit }, payload) => {
     commit('setPhotoDetail', payload)
   },
 
@@ -105,18 +116,16 @@ const actions = {
         headers: { accesstoken: localStorage.getItem('accesstoken') }
       })
       .then(({ data }) => {
-        commit('setPhotoComment', data.data)
+        http.get(`/photos/${data.data._id}`, {
+          headers: { accesstoken: localStorage.getItem('accesstoken') }
+        })
+        .then(({ data }) => {
+          console.log(data)
+          commit('setPhotoComment', data.data)
+        })
+        .catch(err => console.log(err))
       })
       .catch(err => console.log(err))
-    })
-    .catch(err => console.log(err))
-  },
-  getPhotoComments: ({ commit }, payload) => {
-    http.get(`/comments/${payload}`, {
-      headers: { accesstoken: localStorage.getItem('accesstoken') }
-    })
-    .then(({ data }) => {
-      console.log(data)
     })
     .catch(err => console.log(err))
   }
