@@ -1,6 +1,7 @@
 import axios from 'axios'
 const http = axios.create({
   baseURL: 'http://35.198.251.228/api'
+  // baseURL: 'http://localhost:3000/api'
 })
 
 const actions = {
@@ -120,7 +121,6 @@ const actions = {
           headers: { accesstoken: localStorage.getItem('accesstoken') }
         })
         .then(({ data }) => {
-          console.log(data)
           commit('setPhotoComment', data.data)
         })
         .catch(err => console.log(err))

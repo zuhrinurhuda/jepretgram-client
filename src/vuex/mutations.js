@@ -49,6 +49,8 @@ const mutations = {
       return element._id === payload._id
     })
     state.photos.splice(photoIndex, 1, payload)
+    state.userPhotos.splice(photoIndex, 1, payload)
+    state.photoDetail = payload
   }
 }
 
