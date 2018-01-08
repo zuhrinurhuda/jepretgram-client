@@ -49,7 +49,8 @@
     mounted: function () {
       window.fbAsyncInit = function () {
         window.FB.init({
-          appId: '156642198301030',
+          // appId: '156642198301030',
+          appId: '406024096518663', // development
           cookie: true,
           xfbml: true,
           version: 'v2.11'
