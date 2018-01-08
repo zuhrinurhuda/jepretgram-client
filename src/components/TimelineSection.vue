@@ -51,6 +51,7 @@
     },
     methods: {
       ...mapActions([
+        'getUserProfile',
         'getAllPhotos',
         'submitLikePhoto',
         'submitFollowUser',
@@ -78,6 +79,7 @@
     created: function () {
     },
     mounted: function () {
+      this.getUserProfile()
       this.getAllPhotos()
       $('.ui.special.cards .image').dimmer({
         on: 'hover'
