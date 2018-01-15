@@ -1,7 +1,7 @@
 import axios from 'axios'
 const http = axios.create({
-  baseURL: 'http://35.198.251.228/api'
-  // baseURL: 'http://localhost:3000/api'
+  // baseURL: 'http://35.198.251.228/api'
+  baseURL: 'http://localhost:3000/api'
 })
 
 const actions = {
@@ -51,20 +51,24 @@ const actions = {
    * Action for photos route
    */
   getAllPhotos: ({ commit }) => {
+    commit('setLoadingStatus', true)
     http.get('/photos', {
       headers: { accesstoken: localStorage.getItem('accesstoken') }
     })
     .then(({ data }) => {
       commit('setPhotos', data.data)
+      commit('setLoadingStatus', false)
     })
     .catch(err => console.log(err))
   },
   getUserPhotos: ({ commit }) => {
+    commit('setLoadingStatus', true)
     http.get('/photos/profile', {
       headers: { accesstoken: localStorage.getItem('accesstoken') }
     })
     .then(({ data }) => {
       commit('setUserPhotos', data.data)
+      commit('setLoadingStatus', false)
     })
     .catch(err => console.log(err))
   },
@@ -128,6 +132,13 @@ const actions = {
       .catch(err => console.log(err))
     })
     .catch(err => console.log(err))
+  },
+
+  /**
+   * Loading
+   */
+  getLoadingStatus: ({ commit }, payload) => {
+    commit('setLoadingStatus', payload)
   }
 }
 

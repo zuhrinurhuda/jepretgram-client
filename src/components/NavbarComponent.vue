@@ -36,7 +36,7 @@
       ...mapActions(['getUserProfile']),
       logout: function () {
         localStorage.removeItem('accesstoken')
-        this.$router.push('/login')
+        this.$router.replace('/login')
       },
       addPhotoModal: function () {
         $('#addPhoto').modal('show')

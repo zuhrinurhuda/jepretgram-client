@@ -51,6 +51,13 @@ const mutations = {
     state.photos.splice(photoIndex, 1, payload)
     state.userPhotos.splice(photoIndex, 1, payload)
     state.photoDetail = payload
+  },
+
+  /**
+   * Loading
+   */
+  setLoadingStatus: (state, payload) => {
+    state.isLoading = payload
   }
 }
 
