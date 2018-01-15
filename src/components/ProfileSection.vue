@@ -71,7 +71,8 @@
       ...mapActions([
         'getUserProfile',
         'getUserPhotos',
-        'getPhotoDetail'
+        'getPhotoDetail',
+        'getLoadingStatus'
       ]),
       viewDetail: function (photo) {
         this.getPhotoDetail(photo)
